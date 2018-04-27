@@ -1,6 +1,6 @@
 {
   "name": "outline-hider",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "use inline styles to disable CSS outline on mouse interactions",
   "license": "MIT",
   "repository": "pentaphobe/outline-hider",

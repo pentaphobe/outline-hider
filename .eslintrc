@@ -17,6 +17,9 @@
   "rules": {
     "flowtype-errors/show-errors": "error",
     "no-extra-semi": "error",
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "prettier/prettier": ["error", {
+      "semi": false
+    }]
   }
 }
