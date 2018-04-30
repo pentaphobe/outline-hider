@@ -2,7 +2,8 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": 6
+        "node": 6,
+        "IE": 11
       }
     }],
     "stage-2",
