@@ -9,9 +9,12 @@ type OptionType = {|
 |}
 
 const removeInlineStyle = (el: HTMLElement, styleName: string) => {
+  if (!el || !el.style || !styleName) return
+
   if (el.style.removeProperty) {
     el.style.removeProperty(styleName)
-  } else {
+    // $FlowIgnore this function only exists on IE < 9 and isn't in Flow
+  } else if (el.style.removeAttribute) {
     // $FlowIgnore this function only exists on IE < 9 and isn't in Flow
     el.style.removeAttribute(styleName)
   }
@@ -19,12 +22,15 @@ const removeInlineStyle = (el: HTMLElement, styleName: string) => {
 
 const focusHandler: MouseEventListener = (e: MouseEvent) => {
   // $FlowIgnore 'style is missing in EventTarget'
-  e.target.style.outline = "none"
+  if (!e || !e.target || !e.target.style) return
+  // $FlowIgnore 'style is missing in EventTarget'
+  e.target.style.outline = 'none'
 }
 
 const blurHandler: FocusEventListener = (e: FocusEvent) => {
+  if (!e || !e.target) return
   // $FlowIgnore EventTarget -> HTMLElement incompatible
-  removeInlineStyle(e.target, "outline")
+  removeInlineStyle(e.target, 'outline')
 }
 
 const defaultOptions: OptionType = {
@@ -38,13 +44,13 @@ const defaultOptions: OptionType = {
  * @returns {function} a function which can be used to unregister the handlers
  */
 const outlineHider = (options: OptionType = defaultOptions): Function => {
-  options.target.addEventListener("click", focusHandler, true)
-  options.target.addEventListener("blur", blurHandler, true)
+  options.target.addEventListener('click', focusHandler, true)
+  options.target.addEventListener('blur', blurHandler, true)
 
   return () => {
-    options.target.removeEventListener("click", focusHandler, true)
-    options.target.removeEventListener("blur", blurHandler, true)
+    options.target.removeEventListener('click', focusHandler, true)
+    options.target.removeEventListener('blur', blurHandler, true)
   }
 }
 
-export default outlineHider
+export { outlineHider as default, removeInlineStyle, focusHandler, blurHandler }
